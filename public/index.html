@@ -7,21 +7,18 @@
 </head>
 <body>
     <form method="post" action="/api/single-file" enctype="multipart/form-data">
-        <input type="file" name="myfile" id="myfile" style="display: none"><br>
-        <button type="button" id="uploadButton">Choose file to upload</button>
-        <div>Selected filename: <span id="filename"></span> </div>
+        <input type="file" name="myfile" id="myfile" value="choose file"><br>
         <button type="submit">Submit</button>
     </form>
+    <button id="submitXHR">Submit with XHR</button>
    <script>
-        const fileTag = document.getElementById('myfile');
-        const filenameElem = document.getElementById('filename');
-        document.getElementById('uploadButton').addEventListener('click', () => {
-            fileTag.click();
-        });
+       const form = document.querySelector('form');
+       document.getElementById('submitXHR').addEventListener('click', () => {
+           const xhr = new XMLHttpRequest();
+           xhr.open('POST', 'api/single-file', false);
+           xhr.send(new FormData(form))
 
-        fileTag.addEventListener('change', () => {
-            filename.innerHTML = fileTag.files[0].name;
-        });
+       });
    </script>
 </body>
 </html>
