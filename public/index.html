@@ -10,14 +10,21 @@
         <input type="file" name="myfile" id="myfile" value="choose file"><br>
         <button type="submit">Submit</button>
     </form>
+    <img  style="width: 300px;"/>    
     <button id="submitXHR">Submit with XHR</button>
    <script>
-       const form = document.querySelector('form');
-       document.getElementById('submitXHR').addEventListener('click', () => {
-           const xhr = new XMLHttpRequest();
-           xhr.open('POST', 'api/single-file', false);
-           xhr.send(new FormData(form))
-
+        const input = document.getElementById('myfile');
+        const img = document.querySelector('img');
+        document.getElementById('submitXHR').addEventListener('click', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.addEventListener('readystatechange', () => {
+                if (xhr.readyState === xhr.DONE /* 4 */) {
+                    img.src = URL.createObjectURL(xhr.response);
+                }
+            });
+            xhr.open('POST', '/api/single-file');
+            xhr.send(input.files[0]);
        });
    </script>
 </body>
